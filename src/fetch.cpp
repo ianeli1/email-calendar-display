@@ -7,6 +7,7 @@ char Fetch::PATH_NAME[] = "/api/getData";
 WiFiClientSecure Fetch::client;
 char Fetch::res[1024];
 char Fetch::req[128];
+char Fetch::body[512];
 
 struct FetchResponse Fetch::fetch()
 {
@@ -29,6 +30,21 @@ struct FetchResponse Fetch::fetch()
     returnValue.res = res;
     returnValue.error = false;
     return returnValue;
+}
+
+char *Fetch::getBody()
+{
+    int counter = response_length - 1;
+    while (counter > 0 && res[counter] != '\n')
+    {
+        counter--;
+    }
+    for (int i = counter; i < response_length; i++)
+    {
+        body[i - counter] = res[i];
+    }
+    body[response_length - counter - 1] = 0;
+    return body;
 }
 
 char *Fetch::getRequest()
@@ -56,18 +72,20 @@ bool Fetch::waitForBytes(int timeout)
 
 int Fetch::getResponse()
 {
-    int resCount = 0;
+    response_length = 0;
 
     while (client.available())
     {
-        res[resCount] = client.read();
-        resCount++;
-        if (resCount == 1024)
+        res[response_length] = client.read();
+        response_length++;
+        if (response_length == 1024)
         {
             break;
         }
     }
     client.stop();
 
-    return resCount;
+    return response_length;
 }
+
+int Fetch::response_length = 0;

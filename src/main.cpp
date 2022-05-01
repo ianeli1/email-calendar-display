@@ -27,8 +27,11 @@ void setup()
   {
     Serial.println("Req:");
     Serial.println(Fetch::req);
-    Serial.printf("Body (%i chars):\n", fetchRes.length);
+    Serial.printf("Res (%i chars):\n", fetchRes.length);
     Serial.println(fetchRes.res);
+    Fetch::getBody();
+    Serial.printf("Body (%i chars): \n", sizeof(Fetch::body));
+    Serial.println(Fetch::body);
   }
 }
 
