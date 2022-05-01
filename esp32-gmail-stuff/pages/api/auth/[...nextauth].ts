@@ -12,6 +12,8 @@ export default NextAuth({
         params: {
           scope:
             "openid https://www.googleapis.com/auth/userinfo.email email https://www.googleapis.com/auth/gmail.readonly",
+          prompt: "consent",
+          access_type: "offline",
         },
       },
     }),
