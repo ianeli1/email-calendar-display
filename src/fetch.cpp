@@ -1,9 +1,9 @@
 #include "fetch.h"
 #include "WiFiClientSecure.h"
 
-char Fetch::HOST_NAME[] = "www.ianeli1.com";
+char Fetch::HOST_NAME[] = "email-calendar-display.vercel.app";
 char Fetch::METHOD[] = "GET";
-char Fetch::PATH_NAME[] = "/api/hello";
+char Fetch::PATH_NAME[] = "/api/getData";
 WiFiClientSecure Fetch::client;
 char Fetch::res[1024];
 char Fetch::req[128];
