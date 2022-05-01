@@ -10,5 +10,8 @@ public:
     static LiquidCrystal_I2C lcd;
 
     static void init();
+    static void done();
+    static void fetching();
     static void loop();
+    static void render();
 };

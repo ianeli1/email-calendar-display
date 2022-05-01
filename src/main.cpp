@@ -1,4 +1,4 @@
-
+#define _DISABLE_TLS_
 #include <Arduino.h>
 #include "setupWifi.h"
 #include "blink.h"
@@ -10,34 +10,24 @@ void setup()
 {
   // put your setup code here, to run once:
   Serial.begin(115200);
+  createWifiTask();
   Temperature::init();
   Blink::setupTimer();
+  Display::init();
   Blink::enable();
-  setupWifi();
+  waitForWifi();
   Serial.println("Connected!");
   Blink::disable();
-  Display::init();
-  Display::lcd.backlight();
-  FetchResponse fetchRes = Fetch::fetch();
-  if (fetchRes.error)
-  {
-    Serial.println("An error ocurred!");
-  }
-  else
-  {
-    Serial.println("Req:");
-    Serial.println(Fetch::req);
-    Serial.printf("Res (%i chars):\n", fetchRes.length);
-    Serial.println(fetchRes.res);
-    Fetch::getBody();
-    Serial.printf("Body (%i chars): \n", sizeof(Fetch::body));
-    Serial.println(Fetch::body);
-  }
+  Display::done();
 }
 
 void loop()
 {
-  // put your main code here, to run repeatedly:
-  Display::loop();
-  delay(1000);
+  Blink::enable();
+  Display::fetching();
+  Fetch::fetch();
+  Display::done();
+  Display::render();
+  Blink::disable();
+  delay(60 * 1000);
 }

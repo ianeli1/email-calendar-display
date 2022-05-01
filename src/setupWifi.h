@@ -1,1 +1,4 @@
-bool setupWifi();
+#pragma once
+
+void waitForWifi();
+void createWifiTask();

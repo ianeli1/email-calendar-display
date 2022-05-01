@@ -1,10 +1,21 @@
 #pragma once
 #include "WiFiClientSecure.h"
+#include "ArduinoJson.h"
 
 struct FetchResponse
 {
     int length;
     char *res;
+    bool error;
+};
+
+struct ApiResponse
+{
+    int unread;
+    const char *subject;
+    const char *from;
+    const char *date;
+    const char *time;
     bool error;
 };
 
@@ -21,8 +32,11 @@ public:
 
     static struct FetchResponse fetch();
     static char *getBody();
+    static struct ApiResponse getJson();
 
 private:
+    static bool jsonDeserialized;
+    static StaticJsonDocument<256> json;
     static int response_length;
     static char *getRequest();
 
