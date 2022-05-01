@@ -9,6 +9,6 @@ public:
     static const byte rows = 4;
     static LiquidCrystal_I2C lcd;
 
-    void init();
-    void loop();
+    static void init();
+    static void loop();
 };
